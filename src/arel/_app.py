@@ -81,8 +81,8 @@ class HotReload:
             pass  # pragma: no cover
 
     async def _watch_reloads(self, ws: WebSocket) -> None:
-        async for _ in self.notify.watch():
-            await ws.send_text("reload")
+        async for msg in self.notify.watch():
+            await ws.send_text(msg)
 
     async def __call__(self, scope: Scope, receive: Receive, send: Send) -> None:
         assert scope["type"] == "websocket"

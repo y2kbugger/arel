@@ -10,10 +10,10 @@ class Notify:
     async def notify(self) -> None:
         await self._broadcast.publish("reload")
 
-    async def watch(self) -> AsyncIterator[None]:
+    async def watch(self) -> AsyncIterator[str]:
         async with self._broadcast.subscribe() as subscription:
-            async for _ in subscription:
-                yield
+            async for msg in subscription:
+                yield msg
 
 
 class _MemoryBroadcast:
