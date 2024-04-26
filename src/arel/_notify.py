@@ -1,6 +1,7 @@
 import asyncio
 from contextlib import asynccontextmanager
 from typing import AsyncIterator, Set
+import pathlib
 
 
 class Notify:
@@ -9,6 +10,10 @@ class Notify:
 
     async def notify(self) -> None:
         await self._broadcast.publish("reload")
+
+    async def notify_css(self, filepath: pathlib.Path) -> None:
+        filename = pathlib.Path(filepath).name
+        await self._broadcast.publish(f"update_css:{filename}")
 
     async def watch(self) -> AsyncIterator[str]:
         async with self._broadcast.subscribe() as subscription:
